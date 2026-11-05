@@ -12,7 +12,7 @@
         android:hasCode="false"
         android:hardwareAccelerated="false"
         android:label="Mock Theta Tetris"
-        android:theme="@android:style/Theme.Material.NoActionBar.Fullscreen">
+        android:theme="@style/Theme.Charcoal.App">
 
         <activity
             android:name="android.app.NativeActivity"

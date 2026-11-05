@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 env:
   ICK_COMMIT: c61e448251744a2f40ad743ebef1a027bdcd2f9d
@@ -145,7 +146,7 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           repository: isomorphisms/android-NDK
-          ref: 7c61ee43e75f7c2dab9288edb0e10055898b36e6
+          ref: 42f04d7654d54309ec3f8787bfd2bc40730399d7
           path: .android-ndk
 
       - name: Check out central signing registry
@@ -168,9 +169,23 @@ jobs:
           [[ $count -eq 1 ]]
           printf 'ANDROID_EXPECTED_CERT_SHA256=%s\n' "$signer"             >> "$GITHUB_ENV"
 
+      - name: Restore the verified canonical Grease entrypoint for resource packaging
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          repository: dilapidated-shed/grease
+          run-id: 41253994123
+          artifact-ids: 13062637698
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          path: grease
+      - uses: isomorphisms/ai-ci/.github/actions/charcoal-grease@ebfb667b64009f0c0bdf9dcfafb7884196786ef5
+
       - name: Package signed APK
         env:
           ANDROID_PACKAGE_ID: org.functorialgames.mocktheta
+          ASAN_OPTIONS: detect_leaks=0
+          ANDROID_GREASE: ${{ github.workspace }}/grease/bin/grease
+          ANDROID_RES_DIR: ${{ github.workspace }}/android/res
           ANDROID_VERSION_CODE: "2"
           ANDROID_VERSION_NAME: "0.2.0"
           ANDROID_MIN_SDK: "21"

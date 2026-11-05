@@ -1,4 +1,5 @@
 #include "tetris_core.h"
+#include "charcoal.h"
 
 static int minimum_int(int left, int right) {
     return left < right ? left : right;
@@ -757,11 +758,11 @@ void mock_theta_render_rgba(
     int source_factor;
     struct mock_theta_layout layout;
 
-    unsigned int background = rgba(8u, 10u, 14u);
-    unsigned int guide = rgba(57u, 63u, 74u);
+    unsigned int background = CHARCOAL_BACKGROUND;
+    unsigned int guide = CHARCOAL_BORDER;
     unsigned int coefficient_color =
-        rgba(231u, 235u, 242u);
-    unsigned int degree_color = rgba(155u, 169u, 186u);
+        CHARCOAL_TEXT;
+    unsigned int degree_color = CHARCOAL_SECONDARY;
 
     if (pixels == 0 ||
         width <= 0 ||
